@@ -1,7 +1,10 @@
-const express = require('express')
-const airport = require('./airport')
-const app = express()
-const port = 8080
+const express = require('express');
+const airport = require('./airport');
+const cors = require('cors'); 
+const app = express();
+const port = 8080;
+
+app.use(cors()); // 모든 요청에 대해 cors 허용시키기
 
 app.get('/', (req, res) => {
   res.send('Hello World!')
