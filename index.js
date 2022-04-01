@@ -15,17 +15,7 @@ app.get('/airport', (req, res) => {
 	res.send(Object.keys(airport).map(code=>airport[code]));
 })
 
-app.get('/search/name', (req, res) => {
-	const name = req.query.name;
-	const countryList = Object.values(airport) 
-	const arr = countryList.filter(element => 
-		element.name.includes(name) || 
-		element.korean.includes(name) ||
-		element.english.toUpperCase().includes(name.toUpperCase())
-	);
-	res.send(arr);
-})
-
+// 공항코드
 app.get('/search/code', (req, res) => {
 	const code = req.query.code;
 	const countryList = Object.values(airport) 
@@ -34,6 +24,7 @@ app.get('/search/code', (req, res) => {
 	res.send(arr);
 })
 
+// 나라
 app.get('/search/country', (req, res) => {
 	const country = req.query.country; // query(? 뒤에 오는 문자)가 country인 것의 값 
 	const countryList = Object.values(airport); // 객체를 배열로 바꾸는 코드
@@ -46,8 +37,39 @@ app.get('/search/country', (req, res) => {
 		};
 		i++
 	}
+
 	res.send(arr);
 });
+
+// 위치
+app.get('/search/location', (req, res) => {
+	const location = req.query.location; // query(? 뒤에 오는 문자)가 country인 것의 값 
+	const locationList = Object.values(airport); // 객체를 배열로 바꾸는 코드
+
+	let i = 0;
+	let arr = [];
+	while(i < locationList.length) {
+		if(locationList[i].location.includes(location)) { 
+			arr.push(locationList[i]);
+		};
+		i++
+	}
+
+	res.send(arr);
+});
+
+// 공항이름 (korean && english)
+app.get('/search/name', (req, res) => {
+	const name = req.query.name;
+	const countryList = Object.values(airport) 
+	const arr = countryList.filter(element =>  
+		element.korean.includes(name) ||
+		element.english.toUpperCase().includes(name.toUpperCase())
+	);
+
+	res.send(arr);
+})
+
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
